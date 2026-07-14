@@ -1,8 +1,10 @@
 # 8bit-to-4bit Converter
 
-A standalone Python tool designed to drastically compress Large Language Models from HuggingFace.
+A standalone Python tool designed to drastically compress specific Large Language Models (like **DeepSeek-V4-Flash** and **GLM-5**) from HuggingFace.
 
-This script fetches massive `FP8` (8-bit) neural network weights directly from the HuggingFace Hub, converts them to highly compressed `INT4` (4-bit) safetensors on the fly, and then immediately deletes the heavy FP8 files to save disk space.
+This script fetches massive `FP8` (8-bit) neural network weights directly from the HuggingFace Hub, converts them to highly compressed `INT4` (4-bit) safetensors tailored for the Colibri/DeepSeek-C engines, and then immediately deletes the heavy FP8 files to save disk space.
+
+*Note: This tool uses custom tensor matching logic and a proprietary INT4 packing format. It is not designed for standard PyTorch/Transformers AWQ/GPTQ formats, nor is it universally compatible with models like Llama-3.*
 
 ## Features
 - **Disk-Safe Streaming:** Downloads, converts, and deletes one shard at a time. It will never fill up your hard drive with the full uncompressed model!
