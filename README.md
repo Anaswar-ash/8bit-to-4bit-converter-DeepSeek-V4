@@ -21,11 +21,20 @@ pip install -r requirements.txt
 
 ## Usage
 
-Run the `convert_dsv4.py` script and pass it the name of the HuggingFace repository and your desired output directory.
+The primary conversion script is `convert_fp8_to_int4.py`. It requires the HuggingFace URL to the repository and an output directory.
 
-**Example for DeepSeek-V4:**
+### Basic Conversion
+To convert a full model:
 ```bash
-python convert_dsv4.py --repo deepseek-ai/DeepSeek-V4-Flash-Base --outdir ./v4_int4
+python convert_fp8_to_int4.py --hf_url deepseek-ai/DeepSeek-V4-Flash --out_dir ./v4_int4
 ```
 
-*(This will slowly generate the `v4_int4` folder containing the highly compressed model ready for C-engines!)*
+### Advanced: Surgical Indexer Download
+DeepSeek-V4 has massive ~750 GB repositories. If you only want to download and extract the Lightning Indexer tensors (which are critical for sparse attention) and skip the rest of the model, you can use the `--indexer` flag. 
+
+This flag uses **HTTP Range requests** to surgically extract only the bytes needed for the `idx_wq_b` and `idx_wproj` matrices without downloading the entire FP8 shard files.
+
+```bash
+python convert_fp8_to_int4.py --hf_url deepseek-ai/DeepSeek-V4-Flash --out_dir ./v4_int4 --indexer
+```
+*(This will generate `out-idx-XXXXX.safetensors` files containing the INT8 compressed indexer matrices in just a few minutes, totaling ~5 GB).*
