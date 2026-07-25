@@ -38,5 +38,5 @@ Once both commands finish, your folder will contain all the necessary `out-*.saf
 
 You can instantly boot the DeepSeek-C engine by providing the path:
 ```powershell
-./dsv4.exe ./v4_int4
+./dsv4-server.exe ./v4_int4
 ```
